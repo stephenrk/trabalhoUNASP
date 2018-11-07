@@ -1,0 +1,54 @@
+﻿@model WebApplication2.EF.Telefone
+
+<div class="container" style="margin-top:40px">
+    <div class="row padding-bottom">
+        <div class="col-xs-12">
+            <div class="well">
+                <h1 class="title"></h1>
+                <p>Informe os dados abaixo:</p>
+                @using (Html.BeginForm("IncluirTelefone", "Home", FormMethod.Post))
+                {
+                    @Html.HiddenFor(x => x.Id)
+                    <div class="form-group">
+                        @Html.TextBoxFor(x => x.Numero, new { @class = "form-control" })
+                    </div>
+                    <button type="submit" class="btn btn-success">
+                        <span class="glyphicon glyphicon-floppy-disk"></span>
+                        Gravar
+                    </button>
+                }
+
+                <table class="table table-hover table-responsive">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Número</th>
+                            <th>Alterar</th>
+                            <th>Remover</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var telefone in ViewBag.Telefones)
+                        {
+                            <tr>
+                                <td>@telefone.Id</td>
+                                <td>@telefone.Numero</td>
+                                <td>
+                                    <a href="AlterarTelefone/@telefone.Id"><span class="glyphicon glyphicon-pencil"></span></a>
+                                </td>
+                                <td>
+                                    <a href="RemoverTelefone/@telefone.Id"><span class="glyphicon glyphicon-trash text-danger"></span></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5">Total de registros: </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

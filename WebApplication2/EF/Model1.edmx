@@ -1,0 +1,253 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="RA76154Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="FormaPagamento">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descricao" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Operadora">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Recarga">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Valor" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Data" Type="datetime" Nullable="false" />
+          <Property Name="OperadoraId" Type="int" Nullable="false" />
+          <Property Name="TelefoneId" Type="int" Nullable="false" />
+          <Property Name="FormaPagId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Telefone">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Numero" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Recarga_FormaPagamento">
+          <End Role="FormaPagamento" Type="Self.FormaPagamento" Multiplicity="1" />
+          <End Role="Recarga" Type="Self.Recarga" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FormaPagamento">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Recarga">
+              <PropertyRef Name="FormaPagId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recarga_Operadora">
+          <End Role="Operadora" Type="Self.Operadora" Multiplicity="1" />
+          <End Role="Recarga" Type="Self.Recarga" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Operadora">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Recarga">
+              <PropertyRef Name="OperadoraId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recarga_Telefone">
+          <End Role="Telefone" Type="Self.Telefone" Multiplicity="1" />
+          <End Role="Recarga" Type="Self.Recarga" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Telefone">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Recarga">
+              <PropertyRef Name="TelefoneId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RA76154ModelStoreContainer">
+          <EntitySet Name="FormaPagamento" EntityType="Self.FormaPagamento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Operadora" EntityType="Self.Operadora" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Recarga" EntityType="Self.Recarga" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Telefone" EntityType="Self.Telefone" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Recarga_FormaPagamento" Association="Self.FK_Recarga_FormaPagamento">
+            <End Role="FormaPagamento" EntitySet="FormaPagamento" />
+            <End Role="Recarga" EntitySet="Recarga" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recarga_Operadora" Association="Self.FK_Recarga_Operadora">
+            <End Role="Operadora" EntitySet="Operadora" />
+            <End Role="Recarga" EntitySet="Recarga" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recarga_Telefone" Association="Self.FK_Recarga_Telefone">
+            <End Role="Telefone" EntitySet="Telefone" />
+            <End Role="Recarga" EntitySet="Recarga" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RA76154Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="FormaPagamento">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descricao" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Operadora">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Recarga">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Valor" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Data" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="OperadoraId" Type="Int32" Nullable="false" />
+          <Property Name="TelefoneId" Type="Int32" Nullable="false" />
+          <Property Name="FormaPagId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="FormaPagamento" Relationship="Self.FK_Recarga_FormaPagamento" FromRole="Recarga" ToRole="FormaPagamento" />
+          <NavigationProperty Name="Operadora" Relationship="Self.FK_Recarga_Operadora" FromRole="Recarga" ToRole="Operadora" />
+          <NavigationProperty Name="Telefone" Relationship="Self.FK_Recarga_Telefone" FromRole="Recarga" ToRole="Telefone" />
+        </EntityType>
+        <EntityType Name="Telefone">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Numero" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Recarga_FormaPagamento">
+          <End Role="FormaPagamento" Type="Self.FormaPagamento" Multiplicity="1" />
+          <End Role="Recarga" Type="Self.Recarga" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FormaPagamento">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Recarga">
+              <PropertyRef Name="FormaPagId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recarga_Operadora">
+          <End Role="Operadora" Type="Self.Operadora" Multiplicity="1" />
+          <End Role="Recarga" Type="Self.Recarga" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Operadora">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Recarga">
+              <PropertyRef Name="OperadoraId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recarga_Telefone">
+          <End Role="Telefone" Type="Self.Telefone" Multiplicity="1" />
+          <End Role="Recarga" Type="Self.Recarga" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Telefone">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Recarga">
+              <PropertyRef Name="TelefoneId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RA76154Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="FormaPagamento" EntityType="Self.FormaPagamento" />
+          <EntitySet Name="Operadora" EntityType="Self.Operadora" />
+          <EntitySet Name="Recarga" EntityType="Self.Recarga" />
+          <EntitySet Name="Telefone" EntityType="Self.Telefone" />
+          <AssociationSet Name="FK_Recarga_FormaPagamento" Association="Self.FK_Recarga_FormaPagamento">
+            <End Role="FormaPagamento" EntitySet="FormaPagamento" />
+            <End Role="Recarga" EntitySet="Recarga" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recarga_Operadora" Association="Self.FK_Recarga_Operadora">
+            <End Role="Operadora" EntitySet="Operadora" />
+            <End Role="Recarga" EntitySet="Recarga" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recarga_Telefone" Association="Self.FK_Recarga_Telefone">
+            <End Role="Telefone" EntitySet="Telefone" />
+            <End Role="Recarga" EntitySet="Recarga" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RA76154ModelStoreContainer" CdmEntityContainer="RA76154Entities">
+          <EntitySetMapping Name="FormaPagamento">
+            <EntityTypeMapping TypeName="RA76154Model.FormaPagamento">
+              <MappingFragment StoreEntitySet="FormaPagamento">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Operadora">
+            <EntityTypeMapping TypeName="RA76154Model.Operadora">
+              <MappingFragment StoreEntitySet="Operadora">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Recarga">
+            <EntityTypeMapping TypeName="RA76154Model.Recarga">
+              <MappingFragment StoreEntitySet="Recarga">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="OperadoraId" ColumnName="OperadoraId" />
+                <ScalarProperty Name="TelefoneId" ColumnName="TelefoneId" />
+                <ScalarProperty Name="FormaPagId" ColumnName="FormaPagId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Telefone">
+            <EntityTypeMapping TypeName="RA76154Model.Telefone">
+              <MappingFragment StoreEntitySet="Telefone">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Numero" ColumnName="Numero" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

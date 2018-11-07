@@ -1,0 +1,57 @@
+﻿@model WebApplication2.EF.FormaPagamento
+
+@{
+    ViewBag.Title = "Home Page";
+}
+<div class="container" style="margin-top:40px">
+    <div class="row padding-bottom">
+        <div class="col-xs-12">
+            <div class="well">
+                <h1 class="title"></h1>
+                <p>Informe os dados abaixo:</p>
+                @using (Html.BeginForm("IncluirFormaPagamento", "Home", FormMethod.Post))
+                {
+                    @Html.HiddenFor(x => x.Id)
+                    <div class="form-group">
+                        @Html.TextBoxFor(x => x.Descricao, new { @class = "form-control" })
+                    </div>
+                    <button type="submit" class="btn btn-success">
+                        <span class="glyphicon glyphicon-floppy-disk"></span>
+                        Gravar
+                    </button>
+                }
+
+                <table class="table table-hover table-responsive">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Descrição</th>
+                            <th>Alterar</th>
+                            <th>Remover</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var formaPagamento in ViewBag.FormasPagamento)
+                        {
+                            <tr>
+                                <td>@formaPagamento.Id</td>
+                                <td>@formaPagamento.Descricao</td>
+                                <td>
+                                    <a href="AlterarFormaPagamento/@formaPagamento.Id"><span class="glyphicon glyphicon-pencil"></span></a>
+                                </td>
+                                <td>
+                                    <a href="RemoverFormaPagamento/@formaPagamento.Id"><span class="glyphicon glyphicon-trash text-danger"></span></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5">Total de registros: </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
