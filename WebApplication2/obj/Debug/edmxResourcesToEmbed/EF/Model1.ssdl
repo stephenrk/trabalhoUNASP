@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="RA76154Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+<Schema Namespace="DB_RECARGAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityType Name="FormaPagamento">
     <Key>
       <PropertyRef Name="Id" />
@@ -21,7 +21,6 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Valor" Type="decimal" Precision="18" Scale="2" Nullable="false" />
     <Property Name="Data" Type="datetime" Nullable="false" />
-    <Property Name="OperadoraId" Type="int" Nullable="false" />
     <Property Name="TelefoneId" Type="int" Nullable="false" />
     <Property Name="FormaPagId" Type="int" Nullable="false" />
   </EntityType>
@@ -31,6 +30,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Numero" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="OperadoraId" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="FK_Recarga_FormaPagamento">
     <End Role="FormaPagamento" Type="Self.FormaPagamento" Multiplicity="1" />
@@ -41,18 +41,6 @@
       </Principal>
       <Dependent Role="Recarga">
         <PropertyRef Name="FormaPagId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Recarga_Operadora">
-    <End Role="Operadora" Type="Self.Operadora" Multiplicity="1" />
-    <End Role="Recarga" Type="Self.Recarga" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Operadora">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Recarga">
-        <PropertyRef Name="OperadoraId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -68,7 +56,19 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="RA76154ModelStoreContainer">
+  <Association Name="FK_Telefone_Operadora">
+    <End Role="Operadora" Type="Self.Operadora" Multiplicity="1" />
+    <End Role="Telefone" Type="Self.Telefone" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Operadora">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Telefone">
+        <PropertyRef Name="OperadoraId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DB_RECARGAModelStoreContainer">
     <EntitySet Name="FormaPagamento" EntityType="Self.FormaPagamento" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Operadora" EntityType="Self.Operadora" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Recarga" EntityType="Self.Recarga" Schema="dbo" store:Type="Tables" />
@@ -77,13 +77,13 @@
       <End Role="FormaPagamento" EntitySet="FormaPagamento" />
       <End Role="Recarga" EntitySet="Recarga" />
     </AssociationSet>
-    <AssociationSet Name="FK_Recarga_Operadora" Association="Self.FK_Recarga_Operadora">
-      <End Role="Operadora" EntitySet="Operadora" />
-      <End Role="Recarga" EntitySet="Recarga" />
-    </AssociationSet>
     <AssociationSet Name="FK_Recarga_Telefone" Association="Self.FK_Recarga_Telefone">
       <End Role="Telefone" EntitySet="Telefone" />
       <End Role="Recarga" EntitySet="Recarga" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Telefone_Operadora" Association="Self.FK_Telefone_Operadora">
+      <End Role="Operadora" EntitySet="Operadora" />
+      <End Role="Telefone" EntitySet="Telefone" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

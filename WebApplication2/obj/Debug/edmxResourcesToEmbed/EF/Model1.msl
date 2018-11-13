@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="RA76154ModelStoreContainer" CdmEntityContainer="RA76154Entities">
+  <EntityContainerMapping StorageEntityContainer="DB_RECARGAModelStoreContainer" CdmEntityContainer="DB_RECARGAEntities">
     <EntitySetMapping Name="FormaPagamento">
-      <EntityTypeMapping TypeName="RA76154Model.FormaPagamento">
+      <EntityTypeMapping TypeName="DB_RECARGAModel.FormaPagamento">
         <MappingFragment StoreEntitySet="FormaPagamento">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Descricao" ColumnName="Descricao" />
@@ -10,7 +10,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Operadora">
-      <EntityTypeMapping TypeName="RA76154Model.Operadora">
+      <EntityTypeMapping TypeName="DB_RECARGAModel.Operadora">
         <MappingFragment StoreEntitySet="Operadora">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Nome" ColumnName="Nome" />
@@ -18,22 +18,22 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Recarga">
-      <EntityTypeMapping TypeName="RA76154Model.Recarga">
+      <EntityTypeMapping TypeName="DB_RECARGAModel.Recarga">
         <MappingFragment StoreEntitySet="Recarga">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Valor" ColumnName="Valor" />
           <ScalarProperty Name="Data" ColumnName="Data" />
-          <ScalarProperty Name="OperadoraId" ColumnName="OperadoraId" />
           <ScalarProperty Name="TelefoneId" ColumnName="TelefoneId" />
           <ScalarProperty Name="FormaPagId" ColumnName="FormaPagId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Telefone">
-      <EntityTypeMapping TypeName="RA76154Model.Telefone">
+      <EntityTypeMapping TypeName="DB_RECARGAModel.Telefone">
         <MappingFragment StoreEntitySet="Telefone">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Numero" ColumnName="Numero" />
+          <ScalarProperty Name="OperadoraId" ColumnName="OperadoraId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

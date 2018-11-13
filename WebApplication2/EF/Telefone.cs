@@ -14,7 +14,18 @@ namespace WebApplication2.EF
     
     public partial class Telefone
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Telefone()
+        {
+            this.Recarga = new HashSet<Recarga>();
+        }
+    
         public int Id { get; set; }
         public string Numero { get; set; }
+        public int OperadoraId { get; set; }
+    
+        public virtual Operadora Operadora { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Recarga> Recarga { get; set; }
     }
 }

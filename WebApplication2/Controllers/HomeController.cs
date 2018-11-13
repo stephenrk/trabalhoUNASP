@@ -1,35 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using WebApplication2.EF;
+using WebApplication2.Models;
 
 namespace WebApplication2.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly RA76154Entities entity = new RA76154Entities();
-
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
+        private readonly DB_RECARGAEntities entity = new DB_RECARGAEntities();
 
         public ActionResult ListaOperadoras()
         {
@@ -57,12 +37,10 @@ namespace WebApplication2.Controllers
 
         public ActionResult IncluirOperadora(Operadora operadora)
         {
-            // No id so we add it to database
             if (operadora.Id <= 0)
             {
                 entity.Operadora.Add(operadora);
             }
-            // Has Id, therefore it's in database so we update
             else
             {
                 entity.Entry(operadora).State = EntityState.Modified;
@@ -82,12 +60,10 @@ namespace WebApplication2.Controllers
 
         public ActionResult IncluirFormaPagamento(FormaPagamento formaPagamento)
         {
-            // No id so we add it to database
             if (formaPagamento.Id <= 0)
             {
                 entity.FormaPagamento.Add(formaPagamento);
             }
-            // Has Id, th+erefore it's in database so we update
             else
             {
                 entity.Entry(formaPagamento).State = EntityState.Modified;
@@ -106,20 +82,35 @@ namespace WebApplication2.Controllers
 
         public ActionResult AlterarTelefone(int id)
         {
-            ViewBag.Telefones = entity.Telefone;
             var telefone = entity.Telefone.Where(x => x.Id == id).FirstOrDefault();
 
-            return View("ListaTelefones", telefone);
+            var operadoras = entity.Operadora.ToList();
+
+            TelefoneModel telefoneModel = new TelefoneModel
+            {
+                Id = telefone.Id,
+                Numero = telefone.Numero,
+                OperadoraId = telefone.OperadoraId,
+                Telefones = entity.Telefone.ToList(),
+                Operadoras = new SelectList(operadoras, "Id", "Nome")
+            };
+
+            return View("ListaTelefones", telefoneModel);
         }
 
-        public ActionResult IncluirTelefone(Telefone telefone)
+        public ActionResult IncluirTelefone(TelefoneModel telefoneModel)
         {
-            // No id so we add it to database
+            Telefone telefone = new Telefone
+            {
+                Id = telefoneModel.Id,
+                Numero = telefoneModel.Numero,
+                OperadoraId = telefoneModel.OperadoraId
+            };
+
             if (telefone.Id <= 0)
             {
                 entity.Telefone.Add(telefone);
             }
-            // Has Id, th+erefore it's in database so we update
             else
             {
                 entity.Entry(telefone).State = EntityState.Modified;
@@ -131,24 +122,53 @@ namespace WebApplication2.Controllers
 
         public ActionResult ListaTelefones()
         {
-            ViewBag.Telefones = entity.Telefone;
+            TelefoneModel telefoneModel = new TelefoneModel();
+            var operadoras = entity.Operadora.ToList();
+            telefoneModel.Telefones = entity.Telefone.ToList();
 
-            return View();
+            telefoneModel.Operadoras = new SelectList(operadoras, "Id", "Nome");
+
+            return View(telefoneModel);
         }
 
-        public ActionResult Recarga()
+        public ActionResult Index()
         {
-            var recarga = new Recarga();
+            var recargaModel = new RecargaModel();
 
-            var telefones = (IEnumerable<Telefone>) entity.Telefone;
+            var telefones = entity.Telefone.ToList();
+            var formasPagamento = entity.FormaPagamento.ToList();
 
-            recarga.Telefone = new SelectList(telefones, "Id", "Numero");
+            recargaModel.Telefones = new SelectList(telefones, "Id", "Numero");
+            recargaModel.FormasPagamento = new SelectList(formasPagamento, "Id", "Descricao");
+            recargaModel.Recargas = entity.Recarga.ToList();
+            ViewBag.total = recargaModel.Recargas.Count();
 
-            ViewBag.Telefones = entity.Telefone;
-
-            return View();
+            return View(recargaModel);
         }
 
-        
+        public ActionResult IncluirRecarga(RecargaModel recargaModel)
+        {
+            Recarga recarga = new Recarga
+            {
+                Id = recargaModel.Id,
+                TelefoneId = recargaModel.TelefoneId,
+                FormaPagId = recargaModel.FormaPagId,
+                Data = DateTime.Now,
+                Valor = recargaModel.Valor
+            };
+
+
+            if (recarga.Id <= 0)
+            {
+                entity.Recarga.Add(recarga);
+            }
+            else
+            {
+                entity.Entry(recarga).State = EntityState.Modified;
+            }
+            entity.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
     }
 }

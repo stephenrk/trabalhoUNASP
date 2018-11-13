@@ -1,11 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="RA76154Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+<Schema Namespace="DB_RECARGAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
   <EntityType Name="FormaPagamento">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Descricao" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Recarga" Relationship="Self.FK_Recarga_FormaPagamento" FromRole="FormaPagamento" ToRole="Recarga" />
   </EntityType>
   <EntityType Name="Operadora">
     <Key>
@@ -13,6 +14,7 @@
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Telefone" Relationship="Self.FK_Telefone_Operadora" FromRole="Operadora" ToRole="Telefone" />
   </EntityType>
   <EntityType Name="Recarga">
     <Key>
@@ -21,11 +23,9 @@
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Valor" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
     <Property Name="Data" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="OperadoraId" Type="Int32" Nullable="false" />
     <Property Name="TelefoneId" Type="Int32" Nullable="false" />
     <Property Name="FormaPagId" Type="Int32" Nullable="false" />
     <NavigationProperty Name="FormaPagamento" Relationship="Self.FK_Recarga_FormaPagamento" FromRole="Recarga" ToRole="FormaPagamento" />
-    <NavigationProperty Name="Operadora" Relationship="Self.FK_Recarga_Operadora" FromRole="Recarga" ToRole="Operadora" />
     <NavigationProperty Name="Telefone" Relationship="Self.FK_Recarga_Telefone" FromRole="Recarga" ToRole="Telefone" />
   </EntityType>
   <EntityType Name="Telefone">
@@ -34,6 +34,9 @@
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Numero" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="OperadoraId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Operadora" Relationship="Self.FK_Telefone_Operadora" FromRole="Telefone" ToRole="Operadora" />
+    <NavigationProperty Name="Recarga" Relationship="Self.FK_Recarga_Telefone" FromRole="Telefone" ToRole="Recarga" />
   </EntityType>
   <Association Name="FK_Recarga_FormaPagamento">
     <End Role="FormaPagamento" Type="Self.FormaPagamento" Multiplicity="1" />
@@ -47,14 +50,14 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Recarga_Operadora">
+  <Association Name="FK_Telefone_Operadora">
     <End Role="Operadora" Type="Self.Operadora" Multiplicity="1" />
-    <End Role="Recarga" Type="Self.Recarga" Multiplicity="*" />
+    <End Role="Telefone" Type="Self.Telefone" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Operadora">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="Recarga">
+      <Dependent Role="Telefone">
         <PropertyRef Name="OperadoraId" />
       </Dependent>
     </ReferentialConstraint>
@@ -71,7 +74,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="RA76154Entities" annotation:LazyLoadingEnabled="true">
+  <EntityContainer Name="DB_RECARGAEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="FormaPagamento" EntityType="Self.FormaPagamento" />
     <EntitySet Name="Operadora" EntityType="Self.Operadora" />
     <EntitySet Name="Recarga" EntityType="Self.Recarga" />
@@ -80,9 +83,9 @@
       <End Role="FormaPagamento" EntitySet="FormaPagamento" />
       <End Role="Recarga" EntitySet="Recarga" />
     </AssociationSet>
-    <AssociationSet Name="FK_Recarga_Operadora" Association="Self.FK_Recarga_Operadora">
+    <AssociationSet Name="FK_Telefone_Operadora" Association="Self.FK_Telefone_Operadora">
       <End Role="Operadora" EntitySet="Operadora" />
-      <End Role="Recarga" EntitySet="Recarga" />
+      <End Role="Telefone" EntitySet="Telefone" />
     </AssociationSet>
     <AssociationSet Name="FK_Recarga_Telefone" Association="Self.FK_Recarga_Telefone">
       <End Role="Telefone" EntitySet="Telefone" />

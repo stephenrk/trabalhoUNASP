@@ -13,10 +13,10 @@ namespace WebApplication2.EF
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class RA76154Entities : DbContext
+    public partial class DB_RECARGAEntities : DbContext
     {
-        public RA76154Entities()
-            : base("name=RA76154Entities")
+        public DB_RECARGAEntities()
+            : base("name=DB_RECARGAEntities")
         {
         }
     
